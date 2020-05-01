@@ -37,19 +37,19 @@ def on_click(x, y, button, pressed):
             if mode == "2" or mode == "4":
                 if activate == True:
                     activate = False
-                    sys.stdout.write(u"\u001b[1000D"+gelb+"Autoclicker deaktiviert"+rst+" Neue CPS: ")
+                    sys.stdout.write(u"\u001b[1000D"+gelb+"Autoclicker deaktiviert"+rst)
                     break_def = 1
                 if break_def == 0:
                     if activate == False:
                         activate = True
-                        sys.stdout.write(u"\u001b[1000D"+gruen+"Autoclicker -aktiviert-"+rst+" Neue CPS: ")
+                        sys.stdout.write(u"\u001b[1000D"+gruen+"Autoclicker -aktiviert-"+rst)
             if mode == "1" or mode == "3":
                 activate = True
-                sys.stdout.write(u"\u001b[1000D"+gruen+"Autoclicker -aktiviert-"+rst+" Neue CPS: ")
+                sys.stdout.write(u"\u001b[1000D"+gruen+"Autoclicker -aktiviert-"+rst)
         else:
             if mode == "1" or mode == "3":
                 activate = False
-                sys.stdout.write(u"\u001b[1000D"+gelb+"Autoclicker deaktiviert"+rst+" Neue CPS: ")
+                sys.stdout.write(u"\u001b[1000D"+gelb+"Autoclicker deaktiviert"+rst)
         sys.stdout.flush()
     if running == False:
         if button == Button.left:
@@ -154,12 +154,7 @@ try:
   t2.start()
   t3.start()
   while True:
-      neu_cps = int(input())
-      if mode == "3" or mode == "4":
-          delay = (1/float(neu_cps))-0.005
-      if mode == "1" or mode == "2":
-          delay = (1/float(neu_cps*2.7))-0.005
-      max_count = int(neu_cps/4)
+      sleep(100)
 
 except (KeyboardInterrupt, SystemExit):
   print()
