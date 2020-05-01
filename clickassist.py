@@ -3,9 +3,23 @@
 
 import threading
 from time import sleep
-from pynput.mouse import Listener
-from pynput.mouse import Button, Controller
 import sys
+try:
+    from pynput.mouse import Listener
+    from pynput.mouse import Button, Controller
+except ModuleNotFoundError:
+    print("Die erforderliche Python-Bibliothek 'pynput' ist nicht installiert.")
+    string = input("Möchten sie die Bibliothek installieren? (y/n): ")
+    if string == "y" or string == "Y" or string == "yes" or string == "YES":
+        print("Ok. Die fehlende Bibliothek 'requests' wird nachinstalliert.")
+        print()
+        print("Geben sie diese Zeile in die Kommandozeile ein.")
+        print("$ sudo pip3 install pynput")
+        print("Sie müssen ihr Passwort eingeben, wenn sie Sudo-Berechtigungen haben.")
+        sys.exit()
+
+    else:
+        print("Dann nicht.")
 
 gelb = '\033[30;103m'
 gruen = "\033[42m"
