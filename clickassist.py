@@ -10,6 +10,7 @@ gelb = '\033[30;103m'
 gruen = "\033[42m"
 cyan = "\033[96m"
 rst = "\033[0m"
+minus = 0
 
 class lang:
     class de:
@@ -248,17 +249,27 @@ if mode != "1":
             if mode != "4":
                 print(d_lang.Start.err1)
                 sys.exit()
-if mode == "3" or mode == "4":
-    delay = (1/float(cps*2))-0.005
-if mode == "1" or mode == "2":
-    delay = (1/float(cps*3))-0.005
-max_count = int(cps/4)
+
 keys = input(d_lang.Start.txt11)
+if cps<8:
+    minus = 0
+else:
+    minus = 7.5
 if keys != "l":
     if keys != "r":
         if keys != "lr":
             print(d_lang.Start.err2)
             sys.exit()
+if mode == "3" or mode == "4":
+    delay = (1/float(cps*2))-0.005
+if mode == "1" or mode == "2":
+    if keys == "lr":
+      delay = (1/float((cps-minus)*3))-0.005
+    if keys == "r" or keys == "l":
+      delay = (1/float((cps-minus)*1.5))-0.005
+max_count = int(cps/4)
+
+print()
 input(d_lang.Start.txt12)
 try:
   t1 = threading.Thread(target=threadLISTENER, args=())
