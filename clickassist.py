@@ -3,8 +3,8 @@
 
 import threading
 from time import sleep
+from locale import getdefaultlocale
 import sys
-import os
 
 gelb = '\033[30;103m'
 gruen = "\033[42m"
@@ -45,7 +45,9 @@ class lang:
             txt9 = "- (4) On&Off --  - beim Tippen de/aktivieren des Autoclickers [LINKSKLICK]"
             txt10 = "Auswahl (1|2|3|4): "
             err1 = "Es muss '1','2','3' oder '4' angegeben werden."
-            txt11 = "Drücke ENTER um zu starten."
+            txt11 = "Wenn gedrückt, welche Maustaste sollte unterstützt werden? (l|r|lr): "
+            err2 = "Du kannst nur 'l', 'r' or 'lr' schreiben."
+            txt12 = "Drücke ENTER um zu starten."
     class en:
         class ModuleNotFoundError:
             txt1 = "Python-library 'pynput' is not installed."
@@ -79,13 +81,13 @@ class lang:
             txt9 = "- (4) On&Off --  - tap the activation key to en/disable the autoclicker [LEFTCLICK]"
             txt10 = "Choice (1|2|3|4): "
             err1 = "You can only choose '1','2','3' or '4'."
-            txt11 = "Press ENTER to start."
+            txt11 = "Which mouse key should be assisted when clicked? (l|r|lr): "
+            err2 = "You can only type 'l', 'r' or 'lr'."
+            txt12 = "Press ENTER to start."
 
-from locale import getdefaultlocale
 default_lang = getdefaultlocale()
 default_lang = default_lang[0].split("_")
 default_lang = default_lang[0]
-default_lang = "en"
 if default_lang == "de":
     d_lang = lang.de
 elif default_lang == "en":
@@ -251,17 +253,26 @@ if mode == "3" or mode == "4":
 if mode == "1" or mode == "2":
     delay = (1/float(cps*3))-0.005
 max_count = int(cps/4)
-input(d_lang.Start.txt11)
+keys = input(d_lang.Start.txt11)
+if keys != "l":
+    if keys != "r":
+        if keys != "lr":
+            print(d_lang.Start.err2)
+            sys.exit()
+input(d_lang.Start.txt12)
 try:
   t1 = threading.Thread(target=threadLISTENER, args=())
-  t2 = threading.Thread(target=threadCLICKERl, args=())
-  t3 = threading.Thread(target=threadCLICKERr, args=())
   t1.daemon=True
-  t2.daemon=True
-  t3.daemon=True
   t1.start()
-  t2.start()
-  t3.start()
+  if keys == "l" or keys == "lr":
+      t2 = threading.Thread(target=threadCLICKERl, args=())
+      t2.daemon=True
+      t2.start()
+  if keys == "r" or keys == "lr":
+      t3 = threading.Thread(target=threadCLICKERr, args=())
+      t3.daemon=True
+      t3.start()
+
   while True:
       sleep(100)
 
